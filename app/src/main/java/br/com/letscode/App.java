@@ -20,5 +20,8 @@ public class App {
         lista.adicionarNoComeco(new Pessoa("Carlos"));
         lista.listarTodos();
 
+        lista.remover(2);
+
+
     }
 }

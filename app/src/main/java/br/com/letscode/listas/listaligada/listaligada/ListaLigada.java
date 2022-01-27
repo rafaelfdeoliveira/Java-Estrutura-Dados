@@ -25,6 +25,17 @@ public class ListaLigada implements EstruturaDados {
     }
 
     public void adicionar(Pessoa pessoa, int index) {
+        if (this.totalDeElementos == 0) {
+            adicionarNoComeco(pessoa);
+            return;
+        }
+        if (!posicaoValida(index)) throw new RuntimeException("Posicao invalida");
+        Celula novaCelula = new Celula();
+        novaCelula.setElemento(pessoa);
+        Celula celulaAnterior = getCelula(index - 1);
+        novaCelula.setProximo(celulaAnterior.getProximo());
+        celulaAnterior.setProximo(novaCelula);
+        this.totalDeElementos++;
     }
 
     public void adicionarNoComeco(Pessoa pessoa) {
@@ -41,25 +52,71 @@ public class ListaLigada implements EstruturaDados {
     }
 
     private Celula getCelula(int posicao) {
-        return null;
+        if (!posicaoValida(posicao)) throw new RuntimeException("Posicao invalida");
+        Celula celula = primeiro;
+        for (int i = 0; i <= posicao; i++) {
+            celula = celula.getProximo();
+        }
+        return celula;
     }
 
     private boolean posicaoValida(int posicao) {
-        return false;
+        return posicao >= 0 && posicao < totalDeElementos;
     }
 
     @Override
     public Pessoa buscar(String nome) {
-        return null;
+        if (totalDeElementos == 0) throw new RuntimeException("Nao ha pessoas na lista");
+        Celula celula = primeiro;
+        Celula celulaEncontrada = new Celula();
+        for (int i = 0; i < totalDeElementos; i++) {
+            if (celula.getElemento().getNome().equals(nome)) {
+                celulaEncontrada = celula;
+                break;
+            }
+            celula = celula.getProximo();
+        }
+        if (celula == null) throw new RuntimeException("Pessoa nao encontrada");
+        return celulaEncontrada.getElemento();
     }
 
     @Override
     public void remover(Pessoa pessoa) {
+        if (totalDeElementos == 0) throw new RuntimeException("Nao ha pessoas na Lista");
+        Celula celula = primeiro;
+        Celula celulaAnterior = null;
+        for (int i = 0; i < totalDeElementos; i++) {
+            if (celula.getElemento().equals(pessoa)) {
+                if (i == 0) {
+                    this.primeiro = celula.getProximo();
+                } else {
+                    celulaAnterior.setProximo(celula.getProximo());
+                }
+                this.totalDeElementos--;
+                break;
+            }
+            celulaAnterior = celula;
+            celula = celula.getProximo();
+        }
+        if (celula == null) throw new RuntimeException("Pessoa nao encontrada");
     }
 
     @Override
-    public void remover(int index) {
-
+    public void remover(int posicao) {
+        if (!posicaoValida(posicao)) throw new RuntimeException("Posicao invalida");
+        if (posicao == 0) {
+            this.primeiro = this.primeiro.getProximo();
+        } else if (posicao == this.totalDeElementos - 1) {
+            Celula penultimo = getCelula(posicao - 1);
+            penultimo.setProximo(null);
+            this.ultimo = penultimo;
+        } else {
+            Celula anterior = getCelula(posicao - 1);
+            Celula atual = anterior.getProximo();
+            Celula proximo = atual.getProximo();
+            anterior.setProximo(proximo);
+        }
+        this.totalDeElementos--;
     }
 
     @Override
@@ -68,7 +125,6 @@ public class ListaLigada implements EstruturaDados {
             System.out.println("[]");
         } else {
             Celula atual = primeiro;
-
             StringBuilder builder = new StringBuilder("[");
             for (int i = 0 ; i < totalDeElementos ; i++) {
                 builder.append(atual.getElemento());
@@ -83,6 +139,7 @@ public class ListaLigada implements EstruturaDados {
 
     @Override
     public Pessoa getPessoa(int index) {
-        return null;
+        Celula celula = getCelula(index);
+        return celula.getElemento();
     }
 }
