@@ -54,7 +54,7 @@ public class ListaLigada implements EstruturaDados {
     private Celula getCelula(int posicao) {
         if (!posicaoValida(posicao)) throw new RuntimeException("Posicao invalida");
         Celula celula = primeiro;
-        for (int i = 0; i <= posicao; i++) {
+        for (int i = 0; i < posicao; i++) {
             celula = celula.getProximo();
         }
         return celula;

@@ -14,4 +14,11 @@ public class Celula {
     public Celula (Pessoa elemento) {
         this.elemento = elemento;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        br.com.letscode.listas.listaligada.listaligada.Celula objeto = (br.com.letscode.listas.listaligada.listaligada.Celula) o;
+        return this.elemento.equals(objeto.getElemento());
+    }
 }

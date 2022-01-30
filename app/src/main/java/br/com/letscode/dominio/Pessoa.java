@@ -23,4 +23,12 @@ public class Pessoa {
         this.nome = nome;
         this.idade = new Random().nextInt(90);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        Pessoa objeto = (Pessoa) o;
+        if (nome == objeto.getNome()) return true;
+        return nome.equalsIgnoreCase(objeto.getNome());
+    }
 }
