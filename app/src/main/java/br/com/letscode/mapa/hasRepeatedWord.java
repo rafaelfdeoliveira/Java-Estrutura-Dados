@@ -2,7 +2,7 @@ package br.com.letscode.mapa;
 
 public class hasRepeatedWord {
     public hasRepeatedWord() {
-        String text = "   joao maria    pedro joa     ";
+        String text = "  joao joai    joar joas  ";
         System.out.println(isRepeatingWord(text));
     }
 
